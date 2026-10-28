@@ -6,6 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,12 +21,21 @@ public class Transacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "A descrição é obrigatória")
     private String descricao;
 
+    @NotNull(message = "O valor é obrigatório")
+    @Positive(message = "O valor deve ser maior que zero")
     private BigDecimal valor;
 
+    @NotBlank(message = "O tipo é obrigatório")
+    @Pattern(
+            regexp = "RECEITA|DESPESA",
+            message = "O tipo deve ser RECEITA ou DESPESA"
+    )
     private String tipo;
 
+    @NotNull(message = "A data é obrigatória")
     private LocalDate data;
 
     public Transacao() {
